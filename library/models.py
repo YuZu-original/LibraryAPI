@@ -21,6 +21,7 @@ class Author(DatesModel):
     class Meta:
         verbose_name = 'Автор'
         verbose_name_plural = 'Авторы'
+        unique_together = ('first_name', 'last_name')
 
     first_name = models.CharField(verbose_name="Имя", max_length=100)
     last_name = models.CharField(verbose_name="Фамилия", max_length=100)
@@ -36,6 +37,7 @@ class Book(DatesModel):
     class Meta:
         verbose_name = 'Книга'
         verbose_name_plural = 'Книги'
+        unique_together = ('title', 'author')
 
     title = models.CharField(verbose_name="Название", max_length=100)
     description = models.TextField(verbose_name="Описание")
@@ -53,6 +55,7 @@ class Reader(DatesModel):
     class Meta:
         verbose_name = 'Читатель'
         verbose_name_plural = 'Читатели'
+        unique_together = ('first_name', 'last_name')
 
     first_name = models.CharField(verbose_name="Имя", max_length=100)
     last_name = models.CharField(verbose_name="Фамилия", max_length=100)
