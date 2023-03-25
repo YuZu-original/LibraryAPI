@@ -59,7 +59,7 @@ class Reader(DatesModel):
 
     first_name = models.CharField(verbose_name="Имя", max_length=100)
     last_name = models.CharField(verbose_name="Фамилия", max_length=100)
-    phone_number = PhoneNumberField(null=False, blank=False, unique=True)
+    phone_number = PhoneNumberField(verbose_name="Номер телефона", null=False, blank=False, unique=True)
     is_active = models.BooleanField(verbose_name="Статус", default=True)
     active_books = models.ManyToManyField(Book, verbose_name="Книги", related_name="readers")
 

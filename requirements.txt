@@ -3,3 +3,4 @@ psycopg2-binary==2.9.5
 djangorestframework==3.14.0
 Pillow==9.4.0
 phonenumberslite==8.13.7
+drf-spectacular==0.26.1
