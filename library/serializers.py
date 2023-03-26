@@ -1,8 +1,22 @@
 from phonenumber_field.phonenumber import PhoneNumber
+from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from library.models import Author, Book, Reader
+
+
+class PhoneNumberValidator:
+    def __init__(self, country_code: int, min_national_number: int = 0, max_national_number: int = 10_000_000_000):
+        self.country_code = country_code
+        self.min_national_number = min_national_number
+        self.max_national_number = max_national_number
+
+    def __call__(self, value):
+        if value.country_code != self.country_code:
+            raise ValidationError("Invalid phone number country code")
+        if not (self.min_national_number < value.national_number < self.max_national_number):
+            raise ValidationError("Invalid phone number len")
 
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -18,6 +32,8 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 class ReaderSerializer(serializers.ModelSerializer):
+    phone_number = PhoneNumberField(validators=[PhoneNumberValidator(7, 999_999_999)])
+
     def create(self, validated_data):
         # validate active books
         books = validated_data.get("active_books", [])
@@ -35,22 +51,10 @@ class ReaderSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
     def validate(self, attrs):
-        self.__validate_phone_number(attrs.get('phone_number'))
-        self.__validate_books_count(attrs.get("active_books"))
-        return super().validate(attrs)
-
-    @staticmethod
-    def __validate_phone_number(phone_number_raw: str):
-        phone_number = PhoneNumber.from_string(phone_number=phone_number_raw)
-        if phone_number.country_code != 7:
-            raise ValidationError("Invalid phone number country code")
-        if not (999_999_999 < phone_number.national_number < 10_000_000_000):
-            raise ValidationError("Invalid phone number len (not 11)")
-
-    @staticmethod
-    def __validate_books_count(books: list):
-        if len(books) > 3:
+        books = attrs.get("active_books")
+        if books and len(books) > 3:
             raise ValidationError("Max count active books 3")
+        return super().validate(attrs)
 
     class Meta:
         model = Reader
