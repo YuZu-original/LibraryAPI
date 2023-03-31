@@ -79,4 +79,5 @@ class ReaderSerializer(serializers.ModelSerializer):
             "phone_number",
             "is_active",
             "active_books",
+            "user",
         )
