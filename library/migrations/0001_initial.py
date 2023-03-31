@@ -6,60 +6,142 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Author',
+            name="Author",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Дата обновления')),
-                ('first_name', models.CharField(max_length=100, verbose_name='Имя')),
-                ('last_name', models.CharField(max_length=100, verbose_name='Фамилия')),
-                ('photo', models.ImageField(upload_to='author_images', verbose_name='Фото')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Дата создания"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="Дата обновления"),
+                ),
+                ("first_name", models.CharField(max_length=100, verbose_name="Имя")),
+                ("last_name", models.CharField(max_length=100, verbose_name="Фамилия")),
+                (
+                    "photo",
+                    models.ImageField(upload_to="author_images", verbose_name="Фото"),
+                ),
             ],
             options={
-                'verbose_name': 'Автор',
-                'verbose_name_plural': 'Авторы',
+                "verbose_name": "Автор",
+                "verbose_name_plural": "Авторы",
             },
         ),
         migrations.CreateModel(
-            name='Book',
+            name="Book",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Дата обновления')),
-                ('title', models.CharField(max_length=100, verbose_name='Название')),
-                ('description', models.TextField(verbose_name='Описание')),
-                ('page_count', models.PositiveIntegerField(verbose_name='Кол-во страниц')),
-                ('count', models.PositiveIntegerField(verbose_name='Кол-во книг в библиотеке')),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='books', to='library.author', verbose_name='Автор')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Дата создания"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="Дата обновления"),
+                ),
+                ("title", models.CharField(max_length=100, verbose_name="Название")),
+                ("description", models.TextField(verbose_name="Описание")),
+                (
+                    "page_count",
+                    models.PositiveIntegerField(verbose_name="Кол-во страниц"),
+                ),
+                (
+                    "count",
+                    models.PositiveIntegerField(
+                        verbose_name="Кол-во книг в библиотеке"
+                    ),
+                ),
+                (
+                    "author",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="books",
+                        to="library.author",
+                        verbose_name="Автор",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Книга',
-                'verbose_name_plural': 'Книги',
+                "verbose_name": "Книга",
+                "verbose_name_plural": "Книги",
             },
         ),
         migrations.CreateModel(
-            name='Reader',
+            name="Reader",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Дата обновления')),
-                ('first_name', models.CharField(max_length=100, verbose_name='Имя')),
-                ('last_name', models.CharField(max_length=100, verbose_name='Фамилия')),
-                ('phone_number', models.CharField(max_length=17, validators=[django.core.validators.RegexValidator(message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.", regex='^\\+?1?\\d{9,15}$')], verbose_name='Номер телефона')),
-                ('is_active', models.BooleanField(default=True, verbose_name='Статус')),
-                ('active_books', models.ManyToManyField(related_name='readers', to='library.book', verbose_name='Книги')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Дата создания"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="Дата обновления"),
+                ),
+                ("first_name", models.CharField(max_length=100, verbose_name="Имя")),
+                ("last_name", models.CharField(max_length=100, verbose_name="Фамилия")),
+                (
+                    "phone_number",
+                    models.CharField(
+                        max_length=17,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.",
+                                regex="^\\+?1?\\d{9,15}$",
+                            )
+                        ],
+                        verbose_name="Номер телефона",
+                    ),
+                ),
+                ("is_active", models.BooleanField(default=True, verbose_name="Статус")),
+                (
+                    "active_books",
+                    models.ManyToManyField(
+                        related_name="readers", to="library.book", verbose_name="Книги"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Читатель',
-                'verbose_name_plural': 'Читатели',
+                "verbose_name": "Читатель",
+                "verbose_name_plural": "Читатели",
             },
         ),
     ]

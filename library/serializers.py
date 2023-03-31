@@ -7,7 +7,12 @@ from library.models import Author, Book, Reader
 
 
 class PhoneNumberValidator:
-    def __init__(self, country_code: int, min_national_number: int = 0, max_national_number: int = 10_000_000_000):
+    def __init__(
+        self,
+        country_code: int,
+        min_national_number: int = 0,
+        max_national_number: int = 10_000_000_000,
+    ):
         self.country_code = country_code
         self.min_national_number = min_national_number
         self.max_national_number = max_national_number
@@ -15,7 +20,9 @@ class PhoneNumberValidator:
     def __call__(self, value):
         if value.country_code != self.country_code:
             raise ValidationError("Invalid phone number country code")
-        if not (self.min_national_number < value.national_number < self.max_national_number):
+        if not (
+            self.min_national_number < value.national_number < self.max_national_number
+        ):
             raise ValidationError("Invalid phone number len")
 
 
@@ -39,15 +46,22 @@ class ReaderSerializer(serializers.ModelSerializer):
         books = validated_data.get("active_books", [])
         for book in books:
             if book.count <= 0:
-                raise ValidationError("You can't assign books if they are not available")
+                raise ValidationError(
+                    "You can't assign books if they are not available"
+                )
         return super().create(validated_data)
 
     def update(self, instance, validated_data):
         # validate active books
         books = validated_data.get("active_books", [])
         for book in books:
-            if book.count <= 0 and not instance.active_books.filter(id=book.id).exists():
-                raise ValidationError("You can't assign books if they are not available")
+            if (
+                book.count <= 0
+                and not instance.active_books.filter(id=book.id).exists()
+            ):
+                raise ValidationError(
+                    "You can't assign books if they are not available"
+                )
         return super().update(instance, validated_data)
 
     def validate(self, attrs):
@@ -58,4 +72,11 @@ class ReaderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reader
-        fields = ("id", "first_name", "last_name", "phone_number", "is_active", "active_books")
+        fields = (
+            "id",
+            "first_name",
+            "last_name",
+            "phone_number",
+            "is_active",
+            "active_books",
+        )

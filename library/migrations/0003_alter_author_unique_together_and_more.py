@@ -4,22 +4,21 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('library', '0002_alter_reader_phone_number'),
+        ("library", "0002_alter_reader_phone_number"),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='author',
-            unique_together={('first_name', 'last_name')},
+            name="author",
+            unique_together={("first_name", "last_name")},
         ),
         migrations.AlterUniqueTogether(
-            name='book',
-            unique_together={('title', 'author')},
+            name="book",
+            unique_together={("title", "author")},
         ),
         migrations.AlterUniqueTogether(
-            name='reader',
-            unique_together={('first_name', 'last_name')},
+            name="reader",
+            unique_together={("first_name", "last_name")},
         ),
     ]
