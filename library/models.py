@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import CASCADE
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -65,6 +66,12 @@ class Reader(DatesModel):
     is_active = models.BooleanField(verbose_name="Статус", default=True)
     active_books = models.ManyToManyField(
         Book, verbose_name="Книги", related_name="readers"
+    )
+    user = models.OneToOneField(
+        User,
+        verbose_name="Пользователь",
+        related_name="reader",
+        on_delete=CASCADE,
     )
 
     def __str__(self):
